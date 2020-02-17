@@ -3,7 +3,10 @@
  */
 var contents = ["diamond", "diamond", "paper-plane-o", "paper-plane-o", "anchor", "anchor", "bolt",
                 "bolt", "cube", "cube", "leaf", "leaf", "bicycle", "bicycle", "bomb", "bomb"];
-/*
+let count = 0;
+let move = 0;
+
+                /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
  *   - loop through each card and create its HTML
@@ -25,12 +28,13 @@ function shuffle(array) {
     return array;
 }
 
-contents = shuffle(contents);
-// console.log(contents);
-let cards = document.getElementsByClassName("card");
-for (let i = 0; i < cards.length; i ++){
-    cards.item(i).firstElementChild.setAttribute('class', "fa fa-"+contents[i]);
-}
+// contents = shuffle(contents);
+ let cards = document.getElementsByClassName("card");
+ start(cards);
+
+ document.querySelector(".restart").addEventListener("click", function(){
+     start(cards);
+ });
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -45,7 +49,6 @@ for (let i = 0; i < cards.length; i ++){
 
 let deck = document.querySelector(".deck");
 let first = null;
-let count = 0;
 // let img;
 deck.addEventListener("click", function (event) {
     if (event.target.className === "deck" ||event.target.className.includes("fa")) {
@@ -56,6 +59,7 @@ deck.addEventListener("click", function (event) {
         first = null;
         return;
     } else {
+        move += 1;
         event.target.setAttribute("class", "card open show");
          if (first ===  null) {
             first = event.target;
@@ -79,3 +83,12 @@ function isMatched (card) {
     return card.className.includes("match");
 }
 
+function start (cards) {
+    count = 0;
+    move = 0;
+    contents = shuffle(contents);
+    for (let i = 0; i < cards.length; i ++){
+        cards.item(i).firstElementChild.setAttribute('class', "fa fa-"+contents[i]);
+        cards.item(i).setAttribute("class", "card");
+    }
+}
