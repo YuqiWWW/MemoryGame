@@ -1,8 +1,8 @@
 /*
  * Create a list that holds all of your cards
  */
-
-
+var contents = ["diamond", "diamond", "paper-plane-o", "paper-plane-o", "anchor", "anchor", "bolt",
+                "bolt", "cube", "cube", "leaf", "leaf", "bicycle", "bicycle", "bomb", "bomb"];
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -25,6 +25,12 @@ function shuffle(array) {
     return array;
 }
 
+contents = shuffle(contents);
+// console.log(contents);
+let cards = document.getElementsByClassName("card");
+for (let i = 0; i < cards.length; i ++){
+    cards.item(i).firstElementChild.setAttribute('class', "fa fa-"+contents[i]);
+}
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -36,3 +42,40 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+let deck = document.querySelector(".deck");
+let first = null;
+let count = 0;
+// let img;
+deck.addEventListener("click", function (event) {
+    if (event.target.className === "deck" ||event.target.className.includes("fa")) {
+        return;
+    }
+    console.log(isMatched(event.target));
+    if (isMatched(event.target)){
+        first = null;
+        return;
+    } else {
+        event.target.setAttribute("class", "card open show");
+         if (first ===  null) {
+            first = event.target;
+        } else {
+            if (first.firstElementChild.className === event.target.firstElementChild.className
+                && first !== event.target) {   // card is matched
+                first.setAttribute("class", "card match"); 
+                event.target.setAttribute("class", "card match");
+                first = null;
+                count += 2;
+            } else {
+                first.setAttribute("class", "card"); 
+                event.target.setAttribute("class", "card");
+                first = null;
+            }
+        }
+    }
+});
+
+function isMatched (card) {
+    return card.className.includes("match");
+}
+
