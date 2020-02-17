@@ -5,6 +5,8 @@ var contents = ["diamond", "diamond", "paper-plane-o", "paper-plane-o", "anchor"
                 "bolt", "cube", "cube", "leaf", "leaf", "bicycle", "bicycle", "bomb", "bomb"];
 let count = 0;
 let move = 0;
+let deck = document.querySelector(".deck");
+let first = null;
 
                 /*
  * Display the cards on the page
@@ -47,20 +49,17 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-let deck = document.querySelector(".deck");
-let first = null;
+
 // let moveDisplay = document.querySelector(".moves");
 // let img;
 deck.addEventListener("click", function (event) {
     if (event.target.className === "deck" ||event.target.className.includes("fa")) {
         return;
     }
-    console.log(isMatched(event.target));
     if (isMatched(event.target)){
         first = null;
         return;
     } else {
-        
         event.target.setAttribute("class", "card open show");
          if (first ===  null) {
             first = event.target;
@@ -71,17 +70,23 @@ deck.addEventListener("click", function (event) {
                 event.target.setAttribute("class", "card match");
                 first = null;
                 count += 2;
-                if (count == 16){
-                    alert(`You've successfully finished the game within ${move} moves!`);
-                }
             } else {
                 move += 1;
                 document.querySelector(".moves").textContent = move;
                 first.setAttribute("class", "card"); 
                 event.target.setAttribute("class", "card");
                 first = null;
+                if (move == 20){
+                    document.querySelector(".stars").firstElementChild.remove();
+                }
+                if (move == 30){
+                    document.querySelector(".stars").firstElementChild.remove();
+                }
             }
         }
+    }
+    if (count == 16){
+        alert(`You've successfully finished the game within ${move} moves!`);
     }
 });
 
@@ -92,6 +97,8 @@ function isMatched (card) {
 function start (cards) {
     count = 0;
     move = 0;
+    document.querySelector(".moves").textContent = move;
+    first = null;
     contents = shuffle(contents);
     for (let i = 0; i < cards.length; i ++){
         cards.item(i).firstElementChild.setAttribute('class', "fa fa-"+contents[i]);
