@@ -7,6 +7,7 @@ let count = 0;
 let move = 0;
 let deck = document.querySelector(".deck");
 let first = null;
+let allStars = document.querySelector(".stars");
 
                 /*
  * Display the cards on the page
@@ -77,10 +78,10 @@ deck.addEventListener("click", function (event) {
                 event.target.setAttribute("class", "card");
                 first = null;
                 if (move == 20){
-                    document.querySelector(".stars").firstElementChild.remove();
+                    allStars.firstElementChild.remove();
                 }
                 if (move == 30){
-                    document.querySelector(".stars").firstElementChild.remove();
+                    allStars.firstElementChild.remove();
                 }
             }
         }
@@ -103,5 +104,11 @@ function start (cards) {
     for (let i = 0; i < cards.length; i ++){
         cards.item(i).firstElementChild.setAttribute('class', "fa fa-"+contents[i]);
         cards.item(i).setAttribute("class", "card");
+    }
+    let stars = document.querySelectorAll(".fa-star");
+    for (let i = 0; i < (3 - stars.length); i++){
+        let newStar = document.createElement("li");
+        newStar.innerHTML = "<i class=\'fa fa-star\'></i>";
+        allStars.appendChild(newStar);
     }
 }
