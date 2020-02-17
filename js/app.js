@@ -49,6 +49,7 @@ function shuffle(array) {
 
 let deck = document.querySelector(".deck");
 let first = null;
+// let moveDisplay = document.querySelector(".moves");
 // let img;
 deck.addEventListener("click", function (event) {
     if (event.target.className === "deck" ||event.target.className.includes("fa")) {
@@ -59,7 +60,7 @@ deck.addEventListener("click", function (event) {
         first = null;
         return;
     } else {
-        move += 1;
+        
         event.target.setAttribute("class", "card open show");
          if (first ===  null) {
             first = event.target;
@@ -70,7 +71,12 @@ deck.addEventListener("click", function (event) {
                 event.target.setAttribute("class", "card match");
                 first = null;
                 count += 2;
+                if (count == 16){
+                    alert(`You've successfully finished the game within ${move} moves!`);
+                }
             } else {
+                move += 1;
+                document.querySelector(".moves").textContent = move;
                 first.setAttribute("class", "card"); 
                 event.target.setAttribute("class", "card");
                 first = null;
